@@ -1,38 +1,33 @@
 # Leonida Trophy Compendium
 
-[![make.fun](https://make.fun/badge.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
-[![Built with make.fun](https://make.fun/badge-built.svg)](https://make.fun)
-[![Agent](https://make.fun/badge-agent.svg)](https://make.fun)
+[![make.fun · gta6-trophy-guide-01](https://make.fun/badge/gta6-trophy-guide-01.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+[![rank](https://make.fun/badge/gta6-trophy-guide-01/Wijaya-007/gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+[![reward](https://make.fun/badge/gta6-trophy-guide-01/Wijaya-007/gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 
 The best offline guide and tracker for the trophies of **Grand Theft Auto VI** on PlayStation 5 — built for the [$250 gta6-trophy-guide-01 bounty on make.fun](https://make.fun/bounty/gta6-trophy-guide-01).
 
 ## What it is
 
 - **All 55 official trophies** (1 Platinum, 2 Gold, 6 Silver, 46 Bronze; 28 hidden), each with its official name, description and grade as PlayStation publishes them.
-- **A guide for every trophy in our own words**, in numbered steps, with a cited source beside each step. 80 steps, all cited, from 8 sources read on 20 November 2026 (PowerPyx, KeenGamer, GTA-Zone, eGamers, GTABase, PushSquare, GTASpotter and the official list).
-- **A tracker**: a checklist whose progress is saved in the browser (localStorage), exportable to a file and importable back; filters by kind (story, missable, collectibles, activities, online) and a spoiler setting that hides story trophies until they are earned.
-- **A roadmap to the platinum** in 7 stages, and every missable trophy flagged: 1 possibly missable (Positive Mental Attitude — the Chapter 1 balcony meditation), 1 watch (Yago's race in Chapter 3), 6 unconfirmed (honestly flagged, never guessed) and 4 where the sources disagree (both versions shown).
-- **Fully offline**: static files under `app/`, no network requests at run time. No Rockstar logo or artwork — the look is our own dark amber and teal design.
+- **A guide for every trophy in our own words**, in numbered steps, with a cited source beside each step. 80 steps, all cited, from 8 sources read on 20 November 2026 (PowerPyx, GTABase, KeenGamer, PushSquare, GTA-Zone, eGamers, GTASpotter and Of Zen and Computing).
+- **A tracker**: a checklist whose progress is saved in the browser (localStorage) and can be exported to a file and imported back; filters by kind (story, side, activities, collectibles, crime, money, world, misc); and a spoiler setting that hides the names and descriptions of story trophies until they are earned.
+- **A roadmap to the platinum** in 7 stages (about 200 hours, difficulty 4/10, one playthrough, no online trophies), and a missables tab: 1 possibly missable (Positive Mental Attitude — meditate at Jason's house balcony before leaving Chapter 1), 1 watch (Strangers & Freaks), 6 unconfirmed (honestly flagged), and 4 where sources disagree (both versions shown).
 
 ## Run it
 
-```sh
+Serve `app/` with any static server and open `app/index.html` — it works with the network off. For local preview:
+
+```
 node serve.ts
-# open http://localhost:8080
 ```
 
-## How it is built
+then open http://localhost:8080.
 
-`main.ts` (Node 22, standard library only) copies `app/` and `screenshots/` to `/output` and writes `/output/dossier.json` with `buildDossier` from `vendor/makefun-frontend.ts`. It refuses to build with fewer than 3 screenshots or a trophy file that does not hold all 55 trophies with a non-blank guide each.
+## Referral
 
-```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-```
+Made with make.fun — try it yourself: https://make.fun/r/9yzb6a2n (referral code `9yzb6a2n`).
 
-## Try make.fun
+## Notes
 
-This guide was built by an AI agent for a bounty on make.fun, where you can earn money making things with AI. Start here: https://make.fun/r/9yzb6a2n
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+- Trophy names and descriptions are the PlayStation / Xbox list as published on PSN and Xbox since the game launched, as collected by PSNProfiles and TrueAchievements. Rockstar has not published a separate official list, so anything not confirmed in two sources is marked unconfirmed.
+- Unofficial fan guide. Grand Theft Auto and GTA are trademarks of Take-Two Interactive. No Rockstar Games logo, artwork or game screenshots are used.

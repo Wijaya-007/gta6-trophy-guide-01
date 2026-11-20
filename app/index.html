@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -7,69 +7,87 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="topbar">
-  <div class="title-block">
-    <h1>Leonida Trophy Compendium</h1>
-    <p class="subtitle">GTA VI · PlayStation 5 · 55 trophies · every guide in numbered steps, every step cited</p>
-  </div>
-  <div class="progress-block">
-    <div class="progress-count" id="progress-count">0 / 55 earned</div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-    <div class="save-row">
-      <button id="btn-export" type="button">Export</button>
-      <button id="btn-import" type="button">Import</button>
-      <input type="file" id="file-import" accept="application/json,.json" hidden>
-      <span class="saved-note">Saved in this browser</span>
-      <label class="spoiler-toggle"><input type="checkbox" id="chk-spoiler"> Hide story spoilers until earned</label>
+<header class="top">
+  <div class="brand">
+    <div class="mark">LC</div>
+    <div>
+      <h1>Leonida Trophy Compendium</h1>
+      <p class="sub">Grand Theft Auto VI &middot; PS5 trophy guide &amp; tracker &middot; offline</p>
     </div>
   </div>
+  <div class="progress" id="progress" aria-label="Progress">
+    <div class="bar"><div class="fill" id="progressFill" style="width:0%"></div></div>
+    <span id="progressText">0 / 55 earned</span>
+  </div>
+  <div class="actions">
+    <button id="exportBtn" type="button">Export progress</button>
+    <button id="importBtn" type="button">Import progress</button>
+    <input type="file" id="importFile" accept="application/json" hidden>
+    <label class="spoiler"><input type="checkbox" id="spoilerToggle"> Hide story spoilers</label>
+  </div>
 </header>
-<div class="audit" id="audit">AUDIT</div>
-<nav class="chips" id="chips" aria-label="Filter trophies"></nav>
-<nav class="tabs" role="tablist" aria-label="Guide sections">
-  <button class="tab active" data-tab="checklist" role="tab" aria-selected="true">Checklist</button>
-  <button class="tab" data-tab="roadmap" role="tab" aria-selected="false">Roadmap</button>
-  <button class="tab" data-tab="missables" role="tab" aria-selected="false">Missables</button>
-  <button class="tab" data-tab="sources" role="tab" aria-selected="false">Sources</button>
+
+<section class="audit" id="auditStrip" aria-label="Audit"></section>
+
+<nav class="chips" id="filterChips" aria-label="Filter by kind">
+  <button data-kind="all" class="on" type="button">All 55</button>
+  <button data-kind="Story" type="button">Story</button>
+  <button data-kind="Side" type="button">Side</button>
+  <button data-kind="Activities" type="button">Activities</button>
+  <button data-kind="Collectibles" type="button">Collectibles</button>
+  <button data-kind="Crime" type="button">Crime</button>
+  <button data-kind="Money" type="button">Money</button>
+  <button data-kind="World" type="button">World</button>
+  <button data-kind="Misc" type="button">Misc</button>
+  <button data-kind="earned" type="button">Earned ✓</button>
+  <button data-kind="todo" type="button">To do</button>
 </nav>
+
+<nav class="tabs" aria-label="Sections">
+  <button data-tab="checklist" class="on" type="button">Checklist</button>
+  <button data-tab="roadmap" type="button">Roadmap</button>
+  <button data-tab="missables" type="button">Missables</button>
+  <button data-tab="sources" type="button">Sources</button>
+</nav>
+
 <main>
-  <section id="tab-checklist" class="panel active" role="tabpanel">
+  <section id="tab-checklist" class="panel on">
     <div class="cols">
-      <div class="col-list">
-        <h2>TROPHIES</h2>
-        <p class="list-meta" id="list-meta"></p>
-        <ul class="trophy-list" id="trophy-list"></ul>
-      </div>
-      <div class="col-detail" id="detail">
-        <p class="detail-empty">Pick a trophy on the left to see its guide, step by step, with its sources.</p>
-      </div>
-      <aside class="col-sources">
-        <h2>SOURCES — READ 20 NOV 2026</h2>
-        <ol class="source-list" id="source-list"></ol>
+      <div class="list" id="trophyList" aria-label="Trophy list"></div>
+      <aside class="detail" id="detail" aria-label="Guide detail">
+        <p class="hint">Pick a trophy on the left to see its guide, steps and sources.</p>
+      </aside>
+      <aside class="srcpanel" id="srcPanel" aria-label="Sources for this trophy">
+        <h2>Sources</h2>
+        <p class="hint">Sources for the selected trophy appear here.</p>
       </aside>
     </div>
   </section>
-  <section id="tab-roadmap" class="panel" role="tabpanel">
-    <h2>Roadmap to the platinum — Vice Got a Price!</h2>
-    <p class="roadmap-intro">About 200 hours, difficulty 4/10, one playthrough, no online trophies, no mission replay. Keep a manual save at the start of each chapter. Cheats disable trophies and saving — keep them off a trophy save. [1][5]</p>
-    <div class="stage-grid" id="stage-grid"></div>
+
+  <section id="tab-roadmap" class="panel">
+    <h2>Roadmap to the Platinum</h2>
+    <p class="lede">One playthrough, about 200 hours (PowerPyx: difficulty 4/10). No online trophies, no mission replay, no difficulty settings — free-roam continues after the story. Keep cheats off: they disable trophies and saving.</p>
+    <ol class="stages" id="stageList"></ol>
   </section>
-  <section id="tab-missables" class="panel" role="tabpanel">
-    <h2>Missables, watch list, unconfirmed &amp; disagreements</h2>
-    <p class="miss-intro">Only one trophy can be missed. Everything else stays available after the story. [1][5]</p>
-    <div id="missables-body"></div>
+
+  <section id="tab-missables" class="panel">
+    <h2>Missables &amp; warnings</h2>
+    <p class="lede">Only one trophy is flagged as possibly missable. Everything else can be finished in free-roam after the story. Save manually at the start and end of every chapter — missions cannot be replayed.</p>
+    <div id="missableList"></div>
   </section>
-  <section id="tab-sources" class="panel" role="tabpanel">
-    <h2>Sources — read 20 November 2026</h2>
-    <p class="sources-intro">Every guide in this compendium is written in our own words and cites the guide it draws on. The official trophy names and descriptions are shown as PlayStation publishes them. [8]</p>
-    <ol class="source-list big" id="source-list-full"></ol>
-    <h3>Where the sources disagree</h3>
-    <ul class="disagree-list" id="disagree-list"></ul>
+
+  <section id="tab-sources" class="panel">
+    <h2>Sources</h2>
+    <p class="lede">Every guide in this compendium is written in our own words and cites its sources. Trophy names and descriptions are the PlayStation / Xbox list as published on PSN and Xbox since the game launched, as collected by PSNProfiles and TrueAchievements. Rockstar has not published a separate official list, so anything not confirmed in two sources is marked unconfirmed.</p>
+    <ul class="srclist" id="sourceList"></ul>
+    <h3>Where sources disagree</h3>
+    <div id="disputeList"></div>
   </section>
 </main>
+
 <footer>
-  <p>Leonida Trophy Compendium — an unofficial fan guide. Grand Theft Auto VI is a game by Rockstar Games; this guide shows no Rockstar logo or artwork. Trophy names and descriptions are as PlayStation publishes them. Built for the make.fun gta6-trophy-guide-01 bounty.</p>
+  <p>Leonida Trophy Compendium — an unofficial fan guide. Grand Theft Auto and GTA are trademarks of Take-Two Interactive. No Rockstar Games logo, artwork or game screenshots are used. Built for the make.fun gta6-trophy-guide-01 bounty.</p>
 </footer>
-<script type="module" src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
