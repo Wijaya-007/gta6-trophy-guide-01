@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Trophy Compendium — GTA VI guide &amp; tracker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="titleblock">
+    <h1>Leonida Trophy Compendium</h1>
+    <p class="subtitle">GTA VI · PlayStation 5 · 55 trophies · every guide in numbered steps, every step cited</p>
+  </div>
+  <div class="progressblock">
+    <div class="earned" id="earnedBig">0 / 55 earned</div>
+    <div class="bar"><div class="barfill" id="barFill"></div></div>
+    <div class="topactions">
+      <button id="exportBtn" type="button">Export</button>
+      <button id="importBtn" type="button">Import</button>
+      <input id="importFile" type="file" accept="application/json" hidden>
+      <span class="saved" id="savedNote">Saved in this browser</span>
+      <label class="spoiler"><input id="spoilerToggle" type="checkbox"> Hide story spoilers until earned</label>
+    </div>
+  </div>
+</header>
+<div class="audit" id="audit"></div>
+<div class="filters" id="filters"></div>
+<nav class="tabs" id="tabs">
+  <button type="button" data-tab="checklist" class="active">Checklist</button>
+  <button type="button" data-tab="roadmap">Roadmap</button>
+  <button type="button" data-tab="missables">Missables</button>
+  <button type="button" data-tab="sources">Sources</button>
+</nav>
+<main>
+  <section id="view-checklist" class="view active">
+    <div class="cols">
+      <aside class="trophylist">
+        <h2>Trophies</h2>
+        <div id="earnedCount"></div>
+        <ul id="trophyList"></ul>
+      </aside>
+      <article class="detail" id="detail"></article>
+      <aside class="sources" id="sourcesPanel"></aside>
+    </div>
+  </section>
+  <section id="view-roadmap" class="view">
+    <h2>Roadmap to the platinum — Vice Got a Price!</h2>
+    <p class="roadmap-intro">About 200 hours, difficulty 4/10, one playthrough, no online trophies, no mission replay. Keep a manual save at the start of each chapter. Cheats disable trophies and saving — keep them off a trophy save.</p>
+    <div class="stages" id="stages"></div>
+  </section>
+  <section id="view-missables" class="view">
+    <h2>Missables, watch list, unconfirmed &amp; disagreements</h2>
+    <p class="miss-intro">Derived from the launch-day guides, not carried over from any older list. Every other trophy is earnable in free roam after the story.</p>
+    <div class="missgrid" id="missGrid"></div>
+  </section>
+  <section id="view-sources" class="view">
+    <h2>Sources — read 20 Nov 2026</h2>
+    <p class="src-intro">Every step cites its source by number. The official list gives each trophy its name, description and grade. A source is cited, never copied: the guides below are written in this entry's own words.</p>
+    <ol class="srclist" id="sourceList"></ol>
+  </section>
+</main>
+<footer class="foot">Leonida Trophy Compendium — an offline guide &amp; tracker for GTA VI on PlayStation 5. No Rockstar artwork or logos; the look is this entry's own. Progress lives in this browser only.</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
