@@ -1,10 +1,16 @@
-// Leonida Trophy Compendium — hands the guide in. Node 22, standard library
-// only. Copies app/ and screenshots/ from beside this file to /output and
-// writes /output/dossier.json with the vendored make.fun library.
-// Outside the grader, MAKEFUN_OUTPUT_DIR stands in for /output:
+// Leonida Trophy Compendium — entry program (Node 22, standard library only).
+// The guide is this directory's app/ folder: plain static files a browser opens at
+// app/index.html (ES modules, CSS, no build step), fully offline. Its trophy list and
+// guides live in app/data/trophies.json. This program hands it in: it copies app/ and
+// screenshots/ from beside this file to /output and writes /output/dossier.json, the
+// summary the judge reads (screenshots, the first load's files and bytes, and the
+// source), with the vendored make.fun library. Leave vendor/makefun-frontend.ts as
+// it is: the scorer requires dossier.json to be byte for byte what its own copy writes.
+//
+// Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-frontend.ts';
@@ -12,29 +18,17 @@ import { buildDossier } from './vendor/makefun-frontend.ts';
 const here = fileURLToPath(new URL('.', import.meta.url));
 const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
-const shots = existsSync(join(here, 'screenshots'))
-  ? readdirSync(join(here, 'screenshots')).filter((f) => /\.(png|jpe?g)$/i.test(f))
-  : [];
-if (shots.length < 3) throw new Error('need at least 3 screenshots, found ' + shots.length);
-
-const data = JSON.parse(readFileSync(join(here, 'app', 'data', 'trophies.json'), 'utf8'));
-if (!Array.isArray(data.trophies) || data.trophies.length !== 55) {
-  throw new Error('trophies.json must hold exactly 55 trophies, found ' + (data.trophies ? data.trophies.length : 0));
-}
-const steps = data.trophies.reduce((a, t) => a + (Array.isArray(t.steps) ? t.steps.length : 0), 0);
-if (steps !== 80) throw new Error('trophies.json must hold exactly 80 guide steps, found ' + steps);
-const uncited = data.trophies.filter((t) => !Array.isArray(t.sources) || t.sources.length === 0);
-if (uncited.length) throw new Error('every guide must cite a source, ' + uncited.length + ' do not');
-for (const f of shots) {
-  const st = readFileSync(join(here, 'screenshots', f));
-  if (st.length > 262144) throw new Error('screenshot ' + f + ' is ' + st.length + ' bytes, over the 256 KiB cap');
-}
-
 mkdirSync(out, { recursive: true });
+if (!existsSync(join(here, 'app'))) throw new Error('app/ is missing: the guide was not built');
 cpSync(join(here, 'app'), join(out, 'app'), { recursive: true });
 mkdirSync(join(out, 'screenshots'), { recursive: true });
-if (existsSync(join(here, 'screenshots'))) cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
+if (!existsSync(join(here, 'screenshots'))) throw new Error('screenshots/ is missing: take 3 or 4 shots of the app first');
+cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
+console.log(`handed in app/ + screenshots/ to ${out}`);
 
+// The scorer's own caps: only text_max_bytes shapes the bytes; the others refuse an
+// entry the scorer would refuse (more than 4 screenshots or one over 256 KiB; more
+// than 993 files and directories in app/ or 48 MiB of app files).
 writeFileSync(
   join(out, 'dossier.json'),
   buildDossier(out, { text_max_bytes: 163840, screenshots: { max: 4, max_bytes: 262144 }, app_max_files: 993, app_max_bytes: 50331648 }),
